@@ -246,7 +246,7 @@ The prediction model should be used in CRM or retention workflows to:
 ---
 
 ## Repository Structure
-
+```
 telecom-churn-analysis/
 ├── data/
 │   ├── raw/
@@ -277,7 +277,7 @@ telecom-churn-analysis/
 ├── videos/
 │   └── project overview.mp4
 └── README.md
-
+```
 
 ## Project Impact
 
