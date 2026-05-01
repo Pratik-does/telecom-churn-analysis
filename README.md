@@ -1,40 +1,45 @@
-# Customer Churn Analysis & Retention Strategy
+# Customer Churn Intelligence System
 
-An end-to-end churn analytics project built with **SQL, Power BI, and Python** to identify churn drivers, profile at-risk customers, and predict future churners.  
-This project combines **ETL, exploratory analysis, dashboarding, and machine learning** into a business-ready retention framework.
+An end-to-end churn analytics project that combines **SQL-based ETL, Power BI dashboards, and Python machine learning** to identify churn drivers, profile at-risk customers, and predict future churners.
+
+This project is built as a **business decision system**, not just a notebook exercise. It translates raw customer data into actionable retention intelligence for marketing, product, and customer success teams.
 
 ---
 
 ## Business Problem
 
-Customer churn directly impacts revenue, growth efficiency, and retention cost. The core challenge in this project was to answer three business questions:
+Customer churn is a direct revenue leak. When customers leave, the business loses recurring revenue, increases acquisition cost, and weakens long-term growth efficiency.
 
-1. **Who is leaving?**
-2. **Why are they leaving?**
-3. **Who is most likely to leave next?**
+The core business questions behind this project were:
 
-The goal was to transform raw customer data into an actionable churn intelligence system that can support marketing, retention, and customer success teams.
+- Which customers are churning?
+- Why are they churning?
+- Which customers are most likely to churn next?
+- What actions should the business take to reduce retention loss?
+
+This project addresses those questions through a complete analytics workflow from raw data to business action.
 
 ---
 
 ## Project Objectives
 
-- Build a complete **ETL pipeline** in SQL
-- Analyze customer churn across:
-  - **Demographic**
-  - **Geographic**
-  - **Payment & account**
-  - **Services**
-- Profile churners to identify campaign opportunities
-- Build a **predictive churn model** to flag future at-risk customers
-- Deliver an executive-ready **Power BI dashboard** for decision-making
+- Build a structured ETL pipeline in SQL
+- Create clean analysis-ready views for churn and new joiners
+- Analyze churn by:
+  - Demographics
+  - Geography
+  - Payment and account behavior
+  - Services used
+- Profile churners for retention campaigns
+- Build a predictive model to identify future churners
+- Deliver an executive-ready Power BI dashboard
 
 ---
 
 ## Dataset Overview
 
 | Metric | Value |
-|-------|------:|
+|---|---:|
 | Total Customers | 6,418 |
 | Stayed | 4,275 |
 | Churned | 1,732 |
@@ -42,257 +47,251 @@ The goal was to transform raw customer data into an actionable churn intelligenc
 | Churn Rate | 27.0% |
 
 ### Data Sources
-- `Customer_Data.csv` — base customer dataset
-- `EDA.sql` — exploratory SQL queries
-- `View.sql` — ETL views for analysis and prediction
-- `Churn prediction.ipynb` — model training and prediction
-- `Predictions.csv` — predicted churn outputs
-- `churn_analysis.pbix` — Power BI dashboard
+
+- `data/raw/Customer_Data.csv` — source dataset
+- `sql/eda_exploration.sql` — exploratory SQL analysis
+- `sql/create_views.sql` — ETL and view creation
+- `data/processed/churn_model_input.xlsx` — model-ready dataset
+- `notebooks/churn_prediction_model.ipynb` — prediction workflow
+- `data/output/Predictions.csv` — churn prediction output
+- `powerbi/churn_analysis.pbix` — final dashboard
+- `videos/project overview.mp4` — walkthrough of the dashboard and project
 
 ---
 
 ## Tools & Technologies
 
-- **SQL Server** for ETL and data views
-- **Power BI** for dashboarding and business reporting
-- **Python** for prediction modeling
-- **Pandas / NumPy** for data processing
-- **Scikit-learn** for machine learning
+- **SQL Server** for ETL and data modeling
+- **Power BI** for dashboarding and reporting
+- **Python** for machine learning
+- **Pandas / NumPy** for data preparation
+- **Scikit-learn** for model training and evaluation
 - **Matplotlib / Seaborn** for visualization
 
 ---
 
 ## Data Preparation & ETL
 
-The raw customer table was prepared into analysis-ready views:
+The raw customer data was transformed into two production-style views:
 
-- **`vw_churndata`** → customers with `Stayed` and `Churned` status
-- **`vw_joindata`** → customers with `Joined` status
+- `vw_churndata` → customers with `Stayed` and `Churned` status
+- `vw_joindata` → customers with `Joined` status
 
-This separation allowed the project to support two business workflows:
+This separation made the project usable for two workflows:
 
-1. **Churn analysis** on historical customers
-2. **Churn prediction** on new joiners
+1. **Historical churn analysis**
+2. **Future churn prediction**
 
----
-
-## Executive Summary
-
-The analysis shows that churn is concentrated in customers with **month-to-month contracts, shorter tenure, higher monthly charges, competitor-sensitive behavior, and limited service bundling**.  
-The highest-risk profile is not random; it is strongly patterned across **age group, tenure, payment method, contract type, geography, and service usage**.
-
-The predictive model achieved strong classification performance and is suitable for identifying customers requiring proactive retention intervention.  
-The project therefore provides both:
-
-- a **diagnostic layer** to understand churn
-- a **predictive layer** to anticipate churn before it happens
+The ETL layer standardized the data, handled missing values, and created a clean structure for reporting and modeling.
 
 ---
 
 ## Key Business Findings
 
-### 1) Demographic patterns
-- **Middle age** was the largest customer group.
-- Female customers were slightly higher than male customers in the dataset.
-- Churn exposure varied across age groups, with a clear concentration in specific age bands.
+### 1. Contract Type Is a Major Churn Driver
+Month-to-month customers showed the highest churn rate at **46.5%**, while two-year customers had only **2.7%** churn.  
+This is one of the strongest signals in the project and directly points to contract conversion as a retention lever.
 
-### 2) Geographic patterns
-- Churn was not evenly distributed across states.
-- Certain states showed materially higher churn rates, indicating regional retention risk.
-- This supports **state-level campaign targeting** and localized customer success actions.
+### 2. Tenure Matters
+Customers in the **6–12 month tenure window** were a critical risk group.  
+This is the stage where onboarding benefits fade and retention risk becomes visible.
 
-### 3) Payment & contract behavior
-- **Month-to-month customers** were the most churn-prone segment.
-- **Longer contracts** consistently showed lower churn.
-- Payment method also mattered, with differences visible across card, bank withdrawal, and mailed check users.
+### 3. Service Type Influences Churn
+Customers using **fiber optic internet** showed higher churn than other internet types.  
+That suggests service experience, value perception, and support quality matter significantly.
 
-### 4) Tenure behavior
-- Churn was strongest in the **early-to-mid tenure window**.
-- Customers with shorter relationships showed much higher risk than long-tenured customers.
-- This confirms that **first-cycle retention** is critical.
-
-### 5) Services and product usage
-- Churn was associated with service bundles, internet type, and support-related features.
-- Customers without strong service attachment were more likely to leave.
-- This points to **bundle design and value reinforcement** as retention levers.
-
-### 6) Churn reasons
-The churn reason analysis showed strong competitive pressure:
-- competitor offers
+### 4. Churn Is Competitor-Driven
+A large share of churn was linked to competitor offers, especially:
 - better devices
-- better value
-- better speed
-- service-related dissatisfaction
+- better offers
+- more data
+- higher download speeds
 
-This means churn is not only a pricing issue; it is also a **product value and experience issue**.
+This shows churn is not only a pricing problem — it is also a competitive value problem.
+
+### 5. Risk Is Not Random
+Churn risk clusters around:
+- specific states
+- specific age bands
+- specific contract types
+- short-to-mid tenure customers
+- certain payment methods
+
+This makes targeted retention possible.
 
 ---
 
-## Model Performance
+## Power BI Dashboard Summary
 
-The churn prediction model was built using a **RandomForestClassifier**.
+### Summary Dashboard
+The summary dashboard gives the executive view of the business:
 
-### Model Evaluation Snapshot
+- Total Customers: **6,418**
+- Total Churn: **1,732**
+- New Joiners: **411**
+- Churn Rate: **27.0%**
+
+It also breaks churn down by:
+- gender
+- age group
+- geography
+- payment method
+- contract type
+- tenure group
+- churn reason
+- services used
+
+### Prediction Dashboard
+The prediction dashboard focuses on action:
+
+- Identifies customers at risk
+- Shows churner profile by state, tenure, age group, payment method, and contract
+- Provides a customer-at-risk table with revenue and referral fields
+- Supports interactive filtering for decision-making
+
+---
+
+## Machine Learning Model
+
+The churn prediction model was built using a **Random Forest Classifier**.
+
+### Model Performance
 - **Accuracy:** ~87%
-- **Precision (churn class):** strong enough for practical targeting
-- **Recall (churn class):** useful for proactive retention
-- **Feature importance** highlighted the most business-relevant churn drivers
+- **Precision (Churn class):** 0.81
+- **Recall (Churn class):** 0.67
 
-### Confusion Matrix Interpretation
-The model correctly identified a large share of churners and non-churners, while still leaving room for improvement in recall.  
-That means the model is effective as a **retention prioritization tool**, especially for identifying customers who should be targeted first.
+### Interpretation
+The model is strong enough to support business targeting.  
+It is especially useful where the goal is to **prioritize likely churners for retention action**, not to predict with absolute certainty.
 
-### Most Important Predictors
-- Total_Revenue
-- Contract
-- Total_Charges
-- Monthly_Charge
-- Total_Long_Distance_Charges
+### Top Predictive Features
+- Total Revenue
+- Contract Type
+- Total Charges
+- Monthly Charge
+- Total Long Distance Charges
 - Tenure
-- Age
 - State
-- Number_of_Referrals
-- Internet_Type
+- Number of Referrals
+- Internet Type
+
+These features align with the business story shown in the dashboards.
 
 ---
 
 ## Business Recommendations
 
-### 1) Attack month-to-month churn immediately
-Customers on month-to-month contracts should be the first retention segment.  
+### 1. Target Month-to-Month Customers First
+Customers on month-to-month plans are the highest-risk segment.  
 Offer:
-- contract conversion incentives
-- value-based bundles
-- loyalty pricing
+- contract conversion discounts
+- loyalty incentives
+- bundled service upgrades
 
-### 2) Strengthen early-tenure retention
-Customers in the first 6–24 months should receive:
-- onboarding reinforcement
-- usage education
-- proactive follow-up
-- issue-resolution outreach
+### 2. Strengthen Early-Tenure Retention
+The first 6–12 months are critical.  
+Use:
+- onboarding support
+- proactive check-ins
+- service education
+- issue resolution campaigns
 
-### 3) Create state-level retention campaigns
-States with high churn should receive:
-- region-specific promotions
-- localized support monitoring
-- territory-based retention ownership
+### 3. Compete on Value, Not Just Price
+Competitor-related churn suggests a market value gap.  
+Focus on:
+- better bundles
+- stronger offers
+- clearer product positioning
+- retention campaigns for high-risk users
 
-### 4) Compete on value, not just price
-Since competitor offers are a major churn reason:
-- redesign product bundles
-- improve perceived value
-- position upgrades more aggressively
-- counter competitor claims with retention offers
+### 4. Improve Service Experience
+Fiber optic and support-related churn indicates service quality matters.  
+Improve:
+- reliability
+- service responsiveness
+- customer support resolution time
 
-### 5) Use the prediction model operationally
-Customers predicted as churn risk should be:
-- prioritized in CRM
-- routed to retention teams
-- monitored weekly
-- segmented by risk tier
-
-### 6) Improve service stickiness
-Increase attachment to services like:
-- online security
-- backup
-- device protection
-- premium support
-
-These features reduce churn by increasing product dependency and perceived value.
-
----
-
-## Dashboard Pages
-
-### Summary Dashboard
-Shows the business health of the customer base:
-- total customers
-- churned customers
-- new joiners
-- churn rate
-- demographic, geographic, payment, tenure, and service breakdowns
-
-### Prediction Dashboard
-Shows the churn risk profile:
-- predicted churners
-- at-risk customer table
-- churn profile by age, marital status, state, tenure, payment method, and contract
+### 5. Use Predictive Scoring Operationally
+The prediction model should be used in CRM or retention workflows to:
+- flag high-risk customers
+- prioritize outreach
+- reduce retention cost
+- improve campaign ROI
 
 ---
 
 ## Screenshots
 
 ### Summary Dashboard
-![Summary Dashboard Overview](screenshots/summary_dashboard_overall.png)
+![Summary Dashboard](screenshots/summary_dashboard_overall.png)
 
-### Filtered Summary Views
-![summary_dashboard_churn_reason_drilldown](screenshots/summary_dashboard_churn_reason_drilldown.png)  
-![Summary Dashboard Filtered State 2](screenshots/03_summary_dashboard_filtered_state_2.png)
+### Summary Dashboard Filtered Views
+![Filtered by Female](screenshots/summary_dashboard_filtered_female.png)  
+![Filtered by Age Group](screenshots/summary_dashboard_filtered_agegroup.png)  
+![Filtered by Internet Type](screenshots/summary_dashboard_filtered_internet_type.png)
 
 ### Churn Reason Drilldown
-![Churn Reason Drilldown](screenshots/04_summary_dashboard_churn_reason_drilldown.png)
+![Churn Reason Drilldown](screenshots/summary_dashboard_churn_reason_drilldown.png)
 
 ### Prediction Dashboard
-![Prediction Dashboard Overview](screenshots/05_prediction_dashboard_overview_168.png)  
-![Prediction Dashboard Overview](screenshots/06_prediction_dashboard_overview_45.png)  
-![Prediction Dashboard Overview](screenshots/07_prediction_dashboard_overview_98.png)  
-![Prediction Dashboard Overview](screenshots/08_prediction_dashboard_overview_1.png)
+![Prediction Dashboard Overview](screenshots/prediction_dashboard_overview.png)  
+![Prediction Dashboard Filtered by State](screenshots/prediction_dashboard_filtered_state.png)  
+![Prediction Dashboard Filtered by Age Group](screenshots/prediction_dashboard_filtered_agegroup.png)  
+![Prediction Dashboard Filtered by Tenure Group](screenshots/prediction_dashboard_filtered_tenuregroup.png)  
+![Predicted Churner Count](screenshots/prediction_filtered_count_of_predicted_churner.png)
 
-### Machine Learning Outputs
-![Confusion Matrix](screenshots/09_model_confusion_matrix.png)  
-![Feature Importance](screenshots/10_model_feature_importance.png)
+### Model Outputs
+![Confusion Matrix and Feature Importance](screenshots/model_confusion_matrix_feature_importance.png)
 
 ---
 
 ## Repository Structure
 
-```text
 telecom-churn-analysis/
-├── README.md
 ├── data/
 │   ├── raw/
-│   │   └── customer_data.csv
+│   │   └── Customer_Data.csv
 │   ├── processed/
 │   │   └── churn_model_input.xlsx
 │   └── output/
-│       └── predictions.csv
-├── sql/
-│   ├── 01_eda_exploration.sql
-│   └── 02_create_views.sql
+│       └── Predictions.csv
 ├── notebooks/
-│   └── 01_churn_prediction_model.ipynb
+│   └── churn_prediction_model.ipynb
 ├── powerbi/
 │   └── churn_analysis.pbix
 ├── screenshots/
-│   ├── 01_summary_dashboard_overall.png
-│   ├── 02_summary_dashboard_filtered_state_1.png
-│   ├── 03_summary_dashboard_filtered_state_2.png
-│   ├── 04_summary_dashboard_churn_reason_drilldown.png
-│   ├── 05_prediction_dashboard_overview_168.png
-│   ├── 06_prediction_dashboard_overview_45.png
-│   ├── 07_prediction_dashboard_overview_98.png
-│   ├── 08_prediction_dashboard_overview_1.png
-│   ├── 09_model_confusion_matrix.png
-│   └── 10_model_feature_importance.png
+│   ├── summary_dashboard_overall.png
+│   ├── summary_dashboard_filtered_female.png
+│   ├── summary_dashboard_filtered_agegroup.png
+│   ├── summary_dashboard_filtered_internet_type.png
+│   ├── summary_dashboard_churn_reason_drilldown.png
+│   ├── prediction_dashboard_overview.png
+│   ├── prediction_dashboard_filtered_state.png
+│   ├── prediction_dashboard_filtered_agegroup.png
+│   ├── prediction_dashboard_filtered_tenuregroup.png
+│   ├── prediction_filtered_count_of_predicted_churner.png
+│   └── model_confusion_matrix_feature_importance.png
+├── sql/
+│   ├── create_views.sql
+│   └── eda_exploration.sql
 ├── videos/
-│   └── project_overview.mp4
-└── report/
-    ├── project_summary.md
-    
+│   └── project overview.mp4
+└── README.md
+
 
 ## Project Impact
 
-This project delivers a practical churn intelligence system that enables the business to:
-- Reduce revenue leakage by identifying and targeting high-risk customers early  
-- Allocate retention budgets more efficiently based on risk segmentation  
-- Prioritize high-risk customers for proactive outreach and intervention  
-- Improve campaign ROI through data-driven targeting strategies  
-- Support customer success teams with actionable churn insights  
+This project gives the business a practical churn intelligence system that can be used to:
+
+- reduce revenue leakage
+- target retention spending more efficiently
+- prioritize high-risk customers
+- improve campaign ROI
+- support data-driven customer success decisions
 
 ## Conclusion
 
 This project demonstrates an end-to-end churn analytics workflow from raw data to business action.  
-It integrates ETL, dashboarding, segmentation, and predictive modeling to answer the most critical retention question:
+It combines ETL, dashboarding, segmentation, and predictive modeling to answer the most important retention question:
 
 **Which customers are at risk, why are they at risk, and what should the business do next?**
